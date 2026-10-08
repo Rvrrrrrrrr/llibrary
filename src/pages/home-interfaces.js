@@ -1,10 +1,18 @@
 /**
- * home-interfaces.js — Interactive interface concepts on the homepage:
- * the living-archive cycle, LandBook dashboard, land layers explorer,
- * estate record and the regional dashboard map.
+ * home-interfaces.js — Interactive interfaces on the homepage: the
+ * living-archive cycle, LandBook dashboard, land layers explorer, estate
+ * record and the regional dashboard.
  *
- * All figures are illustrative sample data for the concept, not live data.
+ * LandBook figures come from the Monte da Ribeira sample report
+ * (src/lib/landbook-sample.js); regional figures come from the Odemira
+ * commons data (src/lib/wiki-data.js). The estate record entries are
+ * illustrative examples of what an owner would add.
  */
+
+import {
+  SCORECARD, ECOSYSTEM_SERVICES, LAND_COVER_VALUE, CLIMATE_PROJECTION, VALUATION_SCENARIOS,
+} from '../lib/landbook-sample.js';
+import { ODEMIRA, getSectionById, getLandmarks } from '../lib/wiki-data.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -12,7 +20,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 export function initHomeInterfaces() {
   initCycle();
   initTabs();
-  initValueTooltips();
+  initScorecard();
+  initValueBars();
   initScenarioChart();
   initLayers();
   initEstateRecord();
@@ -106,36 +115,68 @@ function tip(text, x, y) {
   tipEl.classList.add('is-on');
 }
 
-function initValueTooltips() {
-  document.querySelectorAll('#lb-bars .h-bar').forEach(bar => {
-    bar.tabIndex = 0;
-    bar.addEventListener('mousemove', (e) => tip(bar.dataset.tip, e.clientX, e.clientY));
-    bar.addEventListener('mouseleave', () => tip(null));
-    bar.addEventListener('focus', () => {
-      const r = bar.getBoundingClientRect();
-      tip(bar.dataset.tip, r.left + r.width / 2, r.top);
-    });
-    bar.addEventListener('blur', () => tip(null));
+const eur = (n) => `€${Math.round(n).toLocaleString('en-GB')}`;
+
+function hoverTip(el, text) {
+  el.tabIndex = 0;
+  el.addEventListener('mousemove', (e) => tip(text, e.clientX, e.clientY));
+  el.addEventListener('mouseleave', () => tip(null));
+  el.addEventListener('focus', () => {
+    const r = el.getBoundingClientRect();
+    tip(text, r.left + r.width / 2, r.top);
   });
+  el.addEventListener('blur', () => tip(null));
 }
 
 // --------------------------------------------------------------------------
-// Future scenarios line chart (one axis, legend toggles, crosshair tooltip)
+// LandBook: scorecard, ecosystem services, climate trajectory, valuation
 // --------------------------------------------------------------------------
-const SCENARIOS = [
-  { name: 'Continue as now', color: '#C0582F', values: [100, 98, 96, 93, 90, 88, 85] },
-  { name: 'Regenerative grazing', color: '#6A9A2C', values: [100, 104, 110, 117, 123, 128, 132] },
-  { name: 'Rewild the valley', color: '#2E6FA8', values: [100, 102, 107, 114, 122, 131, 139] },
-];
-const YEARS = [2026, 2031, 2036, 2041, 2046, 2051, 2056];
+function initScorecard() {
+  const list = document.getElementById('lb-scorecard');
+  if (!list) return;
+  list.innerHTML = SCORECARD.map(d => `
+    <li data-tip="${d.label} ${d.score}/10 · regional ${d.regional}/10 · ${d.basis}">
+      <span>${d.label}</span>
+      <div class="h-meter"><i style="--v:${d.score * 10}%"></i><s style="--t:${d.regional * 10}%"></s></div>
+      <b>${d.score}</b>
+    </li>`).join('');
+  list.querySelectorAll('li').forEach(li => hoverTip(li, li.dataset.tip));
+}
 
+function initValueBars() {
+  const bars = document.getElementById('lb-bars');
+  if (bars) {
+    const max = Math.max(...ECOSYSTEM_SERVICES.map(d => d.value));
+    const total = ECOSYSTEM_SERVICES.reduce((a, d) => a + d.value, 0);
+    bars.innerHTML = ECOSYSTEM_SERVICES.map(d => `
+      <div class="h-bar" role="listitem">
+        <span class="h-bar-label">${d.label}</span>
+        <div class="h-bar-track"><i style="--v:${(d.value / max) * 100}%"></i></div>
+        <b>${eur(d.value)}</b>
+      </div>`).join('');
+    bars.querySelectorAll('.h-bar').forEach((el, i) => {
+      const d = ECOSYSTEM_SERVICES[i];
+      hoverTip(el, `${d.label} · ${eur(d.value)} a year · ${Math.round((d.value / total) * 100)}% of the total`);
+    });
+  }
+  const cover = document.getElementById('lb-cover');
+  if (cover) {
+    cover.innerHTML = `<h4>Natural capital by land cover</h4>
+      <table><thead><tr><th>Land cover</th><th>Area</th><th>Annual value</th></tr></thead><tbody>
+      ${LAND_COVER_VALUE.map(d => `<tr><td>${d.label}</td><td>${d.ha} ha</td><td>${eur(d.value)}</td></tr>`).join('')}
+      </tbody></table>`;
+  }
+}
+
+// Single-series line chart of projected rainfall (one axis), crosshair tooltip
 function initScenarioChart() {
   const host = document.getElementById('lb-chart');
   if (!host) return;
-  const W = 720, H = 300, m = { t: 16, r: 150, b: 30, l: 40 };
+  const data = CLIMATE_PROJECTION;
+  const W = 520, H = 280, m = { t: 24, r: 24, b: 34, l: 44 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const yMin = 80, yMax = 145;
-  const x = (i) => m.l + (i / (YEARS.length - 1)) * iw;
+  const yMin = 550, yMax = 670;
+  const x = (i) => m.l + (i / (data.length - 1)) * iw;
   const y = (v) => m.t + ih - ((v - yMin) / (yMax - yMin)) * ih;
   const el = (tag, attrs = {}, parent) => {
     const n = document.createElementNS(SVG_NS, tag);
@@ -144,61 +185,52 @@ function initScenarioChart() {
     return n;
   };
 
-  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Line chart of soil organic carbon index under three scenarios, 2026 to 2056' });
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Projected annual rainfall falling from 652 mm today to 580 mm by 2045–2050' });
   const grid = el('g', { class: 'grid' }, svg);
   const axis = el('g', { class: 'axis' }, svg);
-  [80, 100, 120, 140].forEach(v => {
+  [560, 600, 640].forEach(v => {
     el('line', { x1: m.l, x2: m.l + iw, y1: y(v), y2: y(v) }, grid);
     el('text', { x: m.l - 10, y: y(v) + 4, 'text-anchor': 'end' }, axis).textContent = v;
   });
-  YEARS.forEach((yr, i) => {
-    if (i % 2) return;
-    el('text', { x: x(i), y: H - 8, 'text-anchor': 'middle' }, axis).textContent = yr;
+  el('text', { x: m.l - 10, y: m.t - 10, 'text-anchor': 'end' }, axis).textContent = 'mm';
+  data.forEach((d, i) => {
+    el('text', { x: x(i), y: H - 10, 'text-anchor': i === 0 ? 'start' : i === data.length - 1 ? 'end' : 'middle' }, axis).textContent = d.period;
   });
 
-  // Direct labels at line ends, nudged apart so they never collide
-  const ends = SCENARIOS.map((s, k) => ({ k, y: y(s.values.at(-1)) })).sort((a, b) => a.y - b.y);
-  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
-  const labelY = Object.fromEntries(ends.map(e => [e.k, e.y]));
-
-  const groups = SCENARIOS.map((s, k) => {
-    const g = el('g', { class: 'series' }, svg);
-    const d = s.values.map((v, i) => `${i ? 'L' : 'M'}${x(i)} ${y(v)}`).join(' ');
-    // Uncertainty band widening over time
-    const up = s.values.map((v, i) => `${i ? 'L' : 'M'}${x(i)} ${y(v + i * 1.3)}`).join(' ');
-    const down = s.values.map((v, i) => `L${x(i)} ${y(v - i * 1.3)}`).reverse().join(' ');
-    el('path', { d: `${up} ${down} Z`, class: 'band', fill: s.color }, g);
-    const line = el('path', { d, stroke: s.color }, g);
-    if (!reduceMotion) {
-      const len = line.getTotalLength?.() || 800;
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-      line.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)';
-    }
-    el('text', { x: x(YEARS.length - 1) + 10, y: labelY[k] + 4 }, g).textContent = `${s.name} · ${s.values.at(-1)}`;
-    const dot = el('circle', { r: 5, class: 'dot', fill: s.color }, g);
-    return { g, line, dot };
+  const g = el('g', { class: 'series' }, svg);
+  const d = data.map((p, i) => `${i ? 'L' : 'M'}${x(i)} ${y(p.rain)}`).join(' ');
+  el('path', { d: `${d} L${x(data.length - 1)} ${m.t + ih} L${x(0)} ${m.t + ih} Z`, class: 'band', fill: '#2E6FA8' }, g);
+  const line = el('path', { d, stroke: '#2E6FA8' }, g);
+  data.forEach((p, i) => {
+    el('circle', { cx: x(i), cy: y(p.rain), r: 4, fill: '#2E6FA8', stroke: '#fff', 'stroke-width': 2 }, g);
+    if (i) el('text', { x: x(i), y: y(p.rain) - 12, 'text-anchor': i === data.length - 1 ? 'end' : 'middle', class: 'ann' }, g).textContent = `+${p.temp}°C`;
   });
-
+  if (!reduceMotion) {
+    const len = line.getTotalLength?.() || 600;
+    line.style.strokeDasharray = len;
+    line.style.strokeDashoffset = len;
+    line.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)';
+  }
   const cross = el('line', { class: 'cross', y1: m.t, y2: m.t + ih }, svg);
-  const hit = el('rect', { x: m.l, y: m.t, width: iw, height: ih, fill: 'transparent' }, svg);
+  const dot = el('circle', { r: 6, class: 'dot', fill: '#2E6FA8' }, svg);
+  const hit = el('rect', { x: m.l - 20, y: m.t, width: iw + 40, height: ih, fill: 'transparent' }, svg);
   host.appendChild(svg);
 
   const tipBox = document.createElement('div');
   tipBox.className = 'h-chart-tip';
   host.appendChild(tipBox);
-
-  const visible = SCENARIOS.map(() => true);
   const move = (clientX) => {
     const r = svg.getBoundingClientRect();
     const sx = ((clientX - r.left) / r.width) * W;
-    const i = Math.max(0, Math.min(YEARS.length - 1, Math.round(((sx - m.l) / iw) * (YEARS.length - 1))));
+    const i = Math.max(0, Math.min(data.length - 1, Math.round(((sx - m.l) / iw) * (data.length - 1))));
+    const p = data[i];
     cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i));
-    groups.forEach((gr, k) => { gr.dot.setAttribute('cx', x(i)); gr.dot.setAttribute('cy', y(SCENARIOS[k].values[i])); });
-    tipBox.innerHTML = `<b>${YEARS[i]}</b>` + SCENARIOS.map((s, k) => visible[k]
-      ? `<span><em><i style="background:${s.color}"></i>${s.name}</em><strong>${s.values[i]}</strong></span>` : '').join('');
+    dot.setAttribute('cx', x(i)); dot.setAttribute('cy', y(p.rain));
+    const change = p.rain - data[0].rain;
+    tipBox.innerHTML = `<b>${p.period}</b><span><em>Annual rainfall</em><strong>${p.rain} mm</strong></span>`
+      + (i ? `<span><em>vs today</em><strong>${change} mm</strong></span><span><em>Warming</em><strong>+${p.temp}°C</strong></span>` : '');
     const px = (x(i) / W) * r.width;
-    tipBox.style.left = `${px > r.width * 0.55 ? px - 190 : px + 16}px`;
+    tipBox.style.left = `${px > r.width * 0.55 ? px - 186 : px + 16}px`;
     host.classList.add('is-hover');
   };
   hit.addEventListener('mousemove', (e) => move(e.clientX));
@@ -206,57 +238,57 @@ function initScenarioChart() {
   hit.addEventListener('touchmove', (e) => move(e.touches[0].clientX), { passive: true });
   hit.addEventListener('mouseleave', () => host.classList.remove('is-hover'));
 
-  document.querySelectorAll('#lb-legend .h-legend-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const k = +btn.dataset.series;
-      visible[k] = !visible[k];
-      btn.classList.toggle('is-on', visible[k]);
-      btn.setAttribute('aria-pressed', String(visible[k]));
-      groups[k].g.classList.toggle('is-off', !visible[k]);
-    });
-  });
-
-  // Draw lines the first time the panel is shown
-  const draw = () => groups.forEach(gr => { gr.line.style.strokeDashoffset = '0'; });
+  const draw = () => { line.style.strokeDashoffset = '0'; };
   const tab = document.getElementById('lb-tab-scenarios');
   tab?.addEventListener('click', () => requestAnimationFrame(() => requestAnimationFrame(draw)));
   tab?.addEventListener('focus', () => requestAnimationFrame(draw));
   if (reduceMotion) draw();
+
+  const val = document.getElementById('lb-valuation');
+  if (val) {
+    const max = Math.max(...VALUATION_SCENARIOS.map(s => s.total));
+    val.innerHTML = '<h4>Valuation scenarios</h4>' + VALUATION_SCENARIOS.map(s => `
+      <div class="h-scen-card">
+        <div><span>${s.label}</span><strong>${eur(s.total)}</strong></div>
+        <div class="h-meter"><i style="--v:${(s.total / max) * 100}%"></i></div>
+        <em>${eur(s.perHa)}/ha · ${s.basis}</em>
+      </div>`).join('');
+  }
 }
 
 // --------------------------------------------------------------------------
-// The land in layers
+// The land in layers (values from the Monte da Ribeira sample report)
 // --------------------------------------------------------------------------
 const LAYERS = [
   {
     title: 'Land & Water', sub: 'Terrain, geology, soils and water access.',
-    rows: [['Dominant soil', 'Schist lithosol', 'obs'], ['Slope > 15%', '22% of area', 'cmp'], ['Nearest perennial water', '340 m', 'obs']],
-    src: 'SoilGrids, DGT terrain model, field survey',
+    rows: [['Soil type', 'Cambisols', 'mod'], ['Average slope', '8.3%', 'cmp'], ['Springs and wells', '2 + 1', 'obs']],
+    src: 'SoilGrids 2.0, Open-Meteo DEM, OpenStreetMap',
   },
   {
     title: 'Biodiversity & Habitat', sub: 'Species records and habitat context.',
-    rows: [['Species recorded', '286', 'obs'], ['Habitats of EU interest', '2', 'obs'], ['Connectivity score', '0.71', 'mod']],
-    src: 'GBIF, iNaturalist, Natura 2000',
+    rows: [['Species within 15 km', '287', 'obs'], ['Threatened species', '14', 'obs'], ['Habitat connectivity', '6.2 / 10', 'mod']],
+    src: 'iNaturalist, GBIF, Natura 2000',
   },
   {
     title: 'Climate & Seasons', sub: 'Rainfall, temperature and growing conditions.',
-    rows: [['Annual rainfall', '618 mm', 'obs'], ['Days above 35°C', '14 / yr', 'cmp'], ['Growing season', 'Oct – Jun', 'cmp']],
-    src: 'Open-Meteo reanalysis, IPMA',
+    rows: [['Annual rainfall', '652 mm', 'cmp'], ['Mean temperature', '15.8°C', 'cmp'], ['Growing season', '~270 days', 'cmp']],
+    src: 'Open-Meteo archive, 30-year normals',
   },
   {
     title: 'History & Trends', sub: 'Climate change and landscape trajectories.',
-    rows: [['Rainfall trend', '−11% since 1991', 'cmp'], ['Tree cover change', '+4% since 2000', 'obs'], ['Projected aridity 2050', 'Higher', 'mod']],
-    src: 'Copernicus land cover, CMIP6 ensemble',
+    rows: [['Land cover 2000–2018', 'Stable agro-forestry', 'obs'], ['Basin tree cover lost', '1.16 km²', 'obs'], ['Rainfall by 2045–50', '−11%', 'mod']],
+    src: 'CORINE Land Cover, Global Forest Watch, CMIP6',
   },
   {
     title: 'Risks & Resilience', sub: 'Fire, flood, drought and capacity to adapt.',
-    rows: [['Wildfire hazard', 'High', 'mod'], ['Flood exposure', 'Low', 'cmp'], ['Drought months / yr', '4.2', 'cmp']],
-    src: 'EFFIS, NASA FIRMS, flood maps',
+    rows: [['Fire', '45/100, moderate', 'cmp'], ['Drought', '30/100, moderate', 'cmp'], ['Fire detections, 10 yrs', '2,847 within 25 km', 'obs']],
+    src: 'Risk model, NASA FIRMS',
   },
   {
     title: 'Sources & Methodology', sub: 'See what is observed, computed or modelled.',
-    rows: [['Observed', '41 sources', 'obs'], ['Computed', '18 indicators', 'cmp'], ['Modelled', '9 estimates', 'mod']],
-    src: 'Every value links back to its evidence',
+    rows: [['Every value', 'Cites its source', 'obs'], ['Synthetic sections', 'Flagged in red', 'mod'], ['Methods', 'TEEB, SoilGrids, CMIP6', 'cmp']],
+    src: 'Full list in the report’s methodology section',
   },
 ];
 const EV_LABEL = { obs: 'Observed', cmp: 'Computed', mod: 'Modelled' };
@@ -295,7 +327,8 @@ function initLayers() {
 }
 
 // --------------------------------------------------------------------------
-// Estate record: filterable evidence feed linked to map pins
+// Estate record: filterable evidence feed linked to map pins.
+// Mirrors LandBook's Vault (notes) and Capture (photos) views; entries are examples.
 // --------------------------------------------------------------------------
 const KINDS = {
   photo: { label: 'Photo of the land', color: '#B4532E', icon: '<path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="3.5"/>' },
@@ -305,7 +338,7 @@ const KINDS = {
 };
 const ENTRIES = [
   { kind: 'photo', title: 'First orchids on the north meadow', meta: '12 Apr 2026 · Ana, estate team', tags: ['Spring', 'Habitat'], x: 32, y: 30, img: '/wiki/ecology.png' },
-  { kind: 'soil', title: 'Soil panel, olive terrace T3', meta: '28 Mar 2026 · Lab result', tags: ['pH 6.4', 'SOM 3.1%', 'P low'], x: 56, y: 42 },
+  { kind: 'soil', title: 'Soil panel, south terrace', meta: '28 Mar 2026 · Lab result', tags: ['pH 5.8', 'OC 18.4 g/kg', 'Cambisol'], x: 56, y: 42 },
   { kind: 'drone', title: 'Winter flight after storm Kirk', meta: '19 Jan 2026 · 4 min, 2.7k', tags: ['Erosion', 'Stream'], x: 70, y: 62, img: '/wiki/water.png' },
   { kind: 'record', title: '1958 cadastral map, scanned', meta: 'Estate archive · Box 4', tags: ['Boundaries', 'Wells'], x: 44, y: 70, img: '/wiki/landuse.png' },
   { kind: 'record', title: 'Where the old spring ran', meta: 'Oral history · Sr. Joaquim, neighbour', tags: ['Water', 'Memory'], x: 22, y: 58 },
@@ -373,42 +406,37 @@ function initEstateRecord() {
 }
 
 // --------------------------------------------------------------------------
-// Regional dashboard: layer toggles, sensor network, groundwater sparkline
+// Regional dashboard: Odemira commons data, places and layers
 // --------------------------------------------------------------------------
-const SENSORS = [
-  { x: 120, y: 236, name: 'Rain gauge · Odemira', reading: '7.2 mm last 24 h' },
-  { x: 250, y: 236, name: 'River level · Mira', reading: '1.34 m, normal' },
-  { x: 452, y: 150, name: 'Reservoir · Santa Clara', reading: '58% capacity' },
-  { x: 330, y: 330, name: 'Groundwater well GW-04', reading: '13.9 m below ground' },
-  { x: 190, y: 120, name: 'Soil moisture · São Teotónio', reading: '18% vol.' },
-  { x: 500, y: 300, name: 'Weather station · Sabóia', reading: '24°C, NW 12 km/h' },
-  { x: 100, y: 330, name: 'Nitrate probe · coastal plain', reading: '38 mg/L' },
-];
+const [S, W0, N, E0] = ODEMIRA.bbox; // [south, west, north, east]
+const project = ([lat, lng]) => [((lng - W0) / (E0 - W0)) * 600, 20 + ((N - lat) / (N - S)) * 430];
 
 function initRegionalDashboard() {
   const map = document.getElementById('h-dash-map');
-  const sensors = document.getElementById('h-sensors');
+  const places = document.getElementById('h-places');
   const tipBox = document.getElementById('h-dm-tip');
   if (!map) return;
 
-  if (sensors) {
-    SENSORS.forEach((s, i) => {
+  if (places) {
+    getLandmarks().forEach((lm, i) => {
+      const [px, py] = project(lm.coords);
       const g = document.createElementNS(SVG_NS, 'g');
-      g.setAttribute('class', 'h-sensor');
+      g.setAttribute('class', `h-sensor h-sensor--${lm.type}`);
       g.setAttribute('tabindex', '0');
       g.setAttribute('role', 'button');
-      g.setAttribute('aria-label', `${s.name}: ${s.reading}`);
-      g.innerHTML = `<circle class="halo" cx="${s.x}" cy="${s.y}" r="8" style="animation-delay:${i * 0.4}s"/><circle class="core" cx="${s.x}" cy="${s.y}" r="6"/>`;
+      g.setAttribute('aria-label', `${lm.name}: ${lm.desc}`);
+      g.innerHTML = `<circle class="halo" cx="${px}" cy="${py}" r="8" style="animation-delay:${i * 0.4}s"/><circle class="core" cx="${px}" cy="${py}" r="${lm.type === 'town' ? 6 : 4.5}"/>`
+        + (lm.type === 'town' ? `<text x="${px + 10}" y="${py + 4}" class="h-dm-tag">${lm.name}</text>` : '');
       const showTip = () => {
         if (!tipBox) return;
         const r = map.getBoundingClientRect();
         const host = tipBox.parentElement.getBoundingClientRect();
         const vb = map.viewBox.baseVal;
-        const scale = Math.max(r.width / vb.width, r.height / vb.height);
+        const scale = Math.min(r.width / vb.width, r.height / vb.height);
         const ox = (r.width - vb.width * scale) / 2, oy = (r.height - vb.height * scale) / 2;
-        tipBox.innerHTML = `<b>${s.name}</b><br>${s.reading}`;
-        tipBox.style.left = `${r.left - host.left + ox + (s.x - vb.x) * scale}px`;
-        tipBox.style.top = `${r.top - host.top + oy + (s.y - vb.y) * scale}px`;
+        tipBox.innerHTML = `<b>${lm.name}</b><br>${lm.desc}`;
+        tipBox.style.left = `${r.left - host.left + ox + (px - vb.x) * scale}px`;
+        tipBox.style.top = `${r.top - host.top + oy + (py - vb.y) * scale}px`;
         tipBox.classList.add('is-on');
       };
       const hide = () => tipBox?.classList.remove('is-on');
@@ -416,36 +444,117 @@ function initRegionalDashboard() {
       g.addEventListener('focus', showTip);
       g.addEventListener('mouseleave', hide);
       g.addEventListener('blur', hide);
-      sensors.appendChild(g);
+      places.appendChild(g);
     });
   }
 
+  const setLayer = (name, on) => {
+    map.querySelector(`.h-dm-layer[data-layer="${name}"]`)?.classList.toggle('is-on', on);
+    liveSetLayer?.(name, on);
+    if (!on) tipBox?.classList.remove('is-on');
+  };
   document.querySelectorAll('#h-dash-layers .h-layer-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const on = !btn.classList.contains('is-on');
       btn.classList.toggle('is-on', on);
       btn.setAttribute('aria-pressed', String(on));
-      map.querySelector(`.h-dm-layer[data-layer="${btn.dataset.layer}"]`)?.classList.toggle('is-on', on);
-      if (!on) tipBox?.classList.remove('is-on');
+      setLayer(btn.dataset.layer, on);
     });
   });
 
-  // Groundwater depth (m below ground), monthly; deeper = lower on the chart
-  const spark = document.getElementById('h-spark-gw');
-  if (spark) {
-    const v = [12.1, 12.0, 12.3, 12.6, 12.9, 13.2, 13.0, 12.8, 12.7, 12.9, 13.1, 13.4, 13.6, 13.5, 13.3, 13.2, 13.4, 13.6, 13.8, 13.9, 13.8, 13.7, 13.8, 13.9];
-    const W = 260, H = 64, pad = 4;
-    const min = 11.8, max = 14.2;
-    const px = (i) => pad + (i / (v.length - 1)) * (W - pad * 2 - 40);
-    const py = (d) => pad + ((d - min) / (max - min)) * (H - pad * 2);
-    const d = v.map((d, i) => `${i ? 'L' : 'M'}${px(i).toFixed(1)} ${py(d).toFixed(1)}`).join(' ');
-    const last = v.length - 1;
-    spark.innerHTML = `
-      <path class="area" d="${d} L${px(last)} ${pad} L${px(0)} ${pad} Z"/>
-      <path class="line" d="${d}"/>
-      <circle class="end" cx="${px(last)}" cy="${py(v[last])}" r="4"/>
-      <text x="${px(last) + 8}" y="${py(v[last]) + 4}">13.9 m</text>
-      <text x="${px(0)}" y="${H + 10}">2024</text>
-      <text x="${px(last)}" y="${H + 10}" text-anchor="end">2026</text>`;
-  }
+  renderSignals();
+  initLiveMap();
+}
+
+// Signals panel, built from the commons' own section data
+function renderSignals() {
+  const host = document.getElementById('h-signals');
+  if (!host) return;
+  const stat = (sec, label) => getSectionById(sec)?.visuals?.stats?.find(s => s.label === label)?.value;
+  const water = stat('water', 'Reservoir Level');
+  const waterSub = getSectionById('water')?.visuals?.stats?.find(s => s.label === 'Reservoir Level')?.sublabel;
+  const climate = getSectionById('climate')?.visuals?.charts?.[0]?.data;
+  const rain = climate?.datasets?.find(d => /Precip/i.test(d.label));
+  const landuse = getSectionById('landuse')?.visuals?.charts?.[0]?.data || [];
+  const risks = getSectionById('risks')?.visuals?.charts?.[0]?.data || [];
+  const level = parseFloat(water) || 0;
+
+  const W = 260, H = 60;
+  const maxR = Math.max(...(rain?.values || [1]));
+  const bw = W / 12;
+  const bars = (rain?.values || []).map((v, i) => {
+    const h = (v / maxR) * (H - 14);
+    return `<rect x="${i * bw + 2}" y="${H - 12 - h}" width="${bw - 4}" height="${h}" rx="2" class="${v < 25 ? 'dry' : ''}"><title>${climate.labels[i]}: ${v} mm</title></rect>`
+      + (i % 3 === 0 ? `<text x="${i * bw + bw / 2}" y="${H}" text-anchor="middle">${climate.labels[i]}</text>` : '');
+  }).join('');
+
+  host.innerHTML = `
+    <a class="h-signal" href="/wiki/water">
+      <div class="h-signal-head"><span>Water</span><b class="h-warn">${water || '—'}</b></div>
+      <p>Santa Clara reservoir level, ${waterSub || ''}</p>
+      <div class="h-thresh"><i style="--v:${level}%"></i><s style="--t:78%"></s></div>
+      <div class="h-thresh-scale"><span>Empty</span><span>Usual level</span><span>Full</span></div>
+    </a>
+    <a class="h-signal" href="/wiki/climate">
+      <div class="h-signal-head"><span>Rainfall</span><b>${stat('climate', 'Annual Rainfall') || ''}</b></div>
+      <p>Monthly rainfall; dry season ${stat('climate', 'Dry Season') || ''}</p>
+      <svg viewBox="0 0 ${W} ${H + 4}" class="h-spark h-spark--bars" role="img" aria-label="Monthly rainfall, wettest in December, near zero in July and August">${bars}</svg>
+    </a>
+    <a class="h-signal" href="/wiki/landuse">
+      <div class="h-signal-head"><span>Land use</span><b>${stat('landuse', 'Greenhouses 2021') || ''}</b></div>
+      <p>Under greenhouses in 2021, up from ${stat('landuse', 'Greenhouses 2013') || ''} in 2013</p>
+      <div class="h-stack" role="img" aria-label="${landuse.map(d => `${d.name} ${d.value}%`).join(', ')}">
+        ${landuse.map(d => `<i style="--v:${d.value}%;--c:${d.color}" title="${d.name} ${d.value}%"></i>`).join('')}
+      </div>
+      <div class="h-stack-key">${landuse.map(d => `<span><i style="--c:${d.color}"></i>${d.name} ${d.value}%</span>`).join('')}</div>
+    </a>
+    <a class="h-signal" href="/wiki/risks">
+      <div class="h-signal-head"><span>Risks</span><b class="h-warn">${stat('risks', 'Overall') || ''}</b></div>
+      <p>Regional risk scores out of 100</p>
+      <ul class="h-risk">${risks.map(r => `<li><span>${r.axis}</span><div class="h-meter ${r.value >= 60 ? 'h-meter--warn' : ''}"><i style="--v:${r.value}%"></i></div><b>${r.value}</b></li>`).join('')}</ul>
+    </a>`;
+}
+
+// When a Mapbox key is configured, swap the schematic for the commons' live map
+let liveSetLayer = null;
+async function initLiveMap() {
+  if (!import.meta.env.VITE_MAPBOX_TOKEN) return;
+  const wrap = document.getElementById('h-dash-mapwrap');
+  if (!wrap || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(async ([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    try {
+      const [{ createMap, addWmsLayer, addMarker }, cop, nat, effis] = await Promise.all([
+        import('../lib/mapbox.js'), import('../api/copernicus.js'), import('../api/natura2000.js'), import('../api/effis.js'),
+      ]);
+      const div = document.createElement('div');
+      div.id = 'h-live-map';
+      div.className = 'h-live-map';
+      wrap.appendChild(div);
+      const map = createMap('h-live-map', { center: [ODEMIRA.center[1], ODEMIRA.center[0]], zoom: 9.2, scrollZoom: false });
+      const layers = {};
+      const markers = [];
+      map.on('load', () => {
+        map.addSource('h-s2', { type: 'raster', tiles: [cop.SENTINEL2_TILES], tileSize: 256 });
+        map.addLayer({ id: 'h-s2-layer', type: 'raster', source: 'h-s2', paint: { 'raster-opacity': 0.8 }, layout: { visibility: 'none' } });
+        layers.satellite = ['h-s2-layer'];
+        layers.landcover = [addWmsLayer(map, cop.CORINE_WMS, cop.getCorineWmsParams(), { opacity: 0.5 }).layerId];
+        layers.protected = [addWmsLayer(map, nat.NATURA2000_WMS, nat.getNatura2000WmsParams(), { opacity: 0.45 }).layerId];
+        layers.fire = [addWmsLayer(map, effis.EFFIS_WMS, effis.getFireDangerWmsParams(), { opacity: 0.45 }).layerId];
+        getLandmarks().forEach(lm => markers.push(addMarker(map, [lm.coords[1], lm.coords[0]], { color: '#B4532E', popupHtml: `<strong>${lm.name}</strong><br>${lm.desc}` })));
+        document.querySelectorAll('#h-dash-layers .h-layer-toggle').forEach(b => liveSetLayer(b.dataset.layer, b.classList.contains('is-on')));
+        wrap.classList.add('is-live');
+        const mode = document.getElementById('h-dash-mode');
+        if (mode) mode.textContent = 'Live map';
+      });
+      liveSetLayer = (name, on) => {
+        (layers[name] || []).forEach(id => map.getLayer(id) && map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+        if (name === 'places') markers.forEach(m => (m.getElement().style.display = on ? '' : 'none'));
+      };
+    } catch (err) {
+      console.warn('Live map unavailable, keeping schematic:', err);
+    }
+  }, { rootMargin: '200px' });
+  io.observe(wrap);
 }

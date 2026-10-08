@@ -623,7 +623,7 @@ a.h-region-card:hover .h-link svg { transform: translateX(4px); }
    ========================================================================== */
 .h-dash-body { display: grid; grid-template-columns: 1fr 340px; }
 .h-dash-mapwrap { position: relative; background: #DCE7EA; min-height: 480px; overflow: hidden; }
-.h-dash-map { position: absolute; inset: 0; }
+.h-dash-map { position: absolute; inset: 0; padding-top: 0; }
 .h-dash-map { width: 100%; height: 100%; display: block; }
 .h-dm-sea { fill: #DCE7EA; }
 .h-dm-land { fill: #F3EEDF; stroke: var(--ink-2); stroke-width: 1.2; stroke-dasharray: 5 4; }
@@ -841,4 +841,62 @@ a.h-region-card:hover .h-link svg { transform: translateX(4px); }
   .h-invite-form { flex-direction: column; border-radius: 18px; gap: 6px; }
   .h-invite-form button { justify-content: center; }
   .h-health li { grid-template-columns: 1fr 70px 44px; }
+}
+
+/* ==========================================================================
+   REAL-DATA DASHBOARD ADDITIONS
+   ========================================================================== */
+.h-app-meta--link { color: var(--terracotta) !important; text-decoration: none; font-weight: 500; }
+.h-app-meta--link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.h-btn--line { border-color: var(--ink); color: var(--ink); background: transparent; }
+.h-btn--line:hover { background: var(--ink); color: var(--on-dark); }
+.h-app-foot-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.h-meter { position: relative; overflow: visible; }
+.h-meter i { position: relative; }
+.h-meter s { position: absolute; top: -3px; bottom: -3px; left: calc(var(--t) - 1px); width: 2px; background: var(--ink); border-radius: 1px; opacity: .55; }
+.h-key--tick { width: 2px; height: 10px; border-radius: 1px; background: var(--ink); opacity: .55; margin-right: 8px; vertical-align: -1px; }
+.h-health b { color: var(--ink); font-family: var(--serif); font-size: 15px; font-weight: 400; }
+.h-health li { cursor: default; }
+
+.h-cover { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 18px; }
+.h-cover h4 { font-size: 17px; margin-bottom: 8px; }
+.h-cover table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.h-cover th { text-align: left; font-weight: 500; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--line); }
+.h-cover td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.h-cover td:not(:first-child), .h-cover th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+
+.h-scen-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: start; }
+.h-chart .series .band { opacity: .08; }
+.h-chart .series text.ann { font-size: 11.5px; fill: #8A3E1F; font-weight: 600; }
+.h-scen-cards h4 { font-size: 17px; margin-bottom: 10px; }
+.h-scen-card { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+.h-scen-card > div:first-child { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.h-scen-card span { font-size: 13px; color: var(--ink-2); }
+.h-scen-card strong { font-family: var(--serif); font-weight: 400; font-size: 20px; }
+.h-scen-card em { display: block; font-style: normal; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+a.h-signal { display: block; text-decoration: none; color: inherit; border-radius: 8px; margin: 0 -8px; padding: 14px 8px 12px; border-top: 1px solid var(--line); transition: background .2s; }
+a.h-signal:hover { background: rgba(196, 154, 74, .08); }
+#h-signals { display: grid; gap: 4px; }
+.h-thresh-scale { position: relative; }
+.h-thresh-scale span:nth-child(2) { position: absolute; left: 78%; transform: translateX(-50%); }
+.h-spark--bars rect { fill: var(--water); opacity: .85; }
+.h-spark--bars rect.dry { fill: var(--ochre); }
+.h-spark--bars text { font-size: 10px; fill: var(--muted); }
+.h-risk { display: grid; gap: 6px; }
+.h-risk li { display: grid; grid-template-columns: 64px 1fr 28px; gap: 10px; align-items: center; font-size: 12.5px; }
+.h-risk b { font-family: var(--serif); font-weight: 400; text-align: right; }
+.h-stack i { min-width: 3px; }
+
+.h-sensor--town circle.core { fill: var(--ink); }
+.h-sensor--town circle.halo { fill: var(--ink); opacity: .15; animation: none; }
+.h-sensor--landmark circle.core { fill: var(--water); }
+.h-dash-mapwrap.is-live .h-dash-map, .h-dash-mapwrap.is-live .h-dm-tip { display: none; }
+.h-live-map { position: absolute; inset: 0; }
+.h-dash-mapwrap .h-dash-layers { z-index: 3; }
+
+@media (max-width: 860px) {
+  .h-scen-grid { grid-template-columns: 1fr; }
+  .h-dash-mapwrap.is-live { height: 380px; }
 }
