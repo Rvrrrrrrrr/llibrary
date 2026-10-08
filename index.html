@@ -4,38 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/jpeg" href="/favicon1.jpg">
-  <title>LandLibrary — Your land is worth more than you know.</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/jpeg" href="/favicon1.jpg">
+  <title>LandLibrary — The voice of the land.</title>
   <meta name="description"
-    content="LandLibrary analyzes market trends, regional dynamics, and environmental data from over 45 verified sources — giving you an accurate view of your land's value.">
-  <meta property="og:title" content="LandLibrary — Your land is worth more than you know.">
+    content="LandLibrary is a beautiful place to hold the knowledge of a landscape and carry it forward through generations: estate libraries, LandBook insights and a living regional commons.">
+  <meta property="og:title" content="LandLibrary — The voice of the land.">
   <meta property="og:description"
-    content="LandLibrary analyzes market trends, regional dynamics, and environmental data from over 45 verified sources — giving you an accurate view of your land's value.">
+    content="A beautiful place to hold the knowledge of a landscape and carry it forward through generations.">
   <meta property="og:image" content="https://llibrary-eight.vercel.app/metaimage.png">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="LandLibrary — Your land is worth more than you know.">
+  <meta name="twitter:title" content="LandLibrary — The voice of the land.">
   <meta name="twitter:description"
-    content="LandLibrary analyzes market trends, regional dynamics, and environmental data from over 45 verified sources — giving you an accurate view of your land's value.">
+    content="A beautiful place to hold the knowledge of a landscape and carry it forward through generations.">
   <meta name="twitter:image" content="https://llibrary-eight.vercel.app/metaimage.png">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap"
+  <meta name="theme-color" content="#1E2B23">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Inter:wght@400;500;600&display=swap"
     rel="stylesheet">
+  <link rel="preload" as="image" href="/home/pavilion.jpg">
 </head>
 
-<body>
+<body class="ll-home">
 
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <a href="/" class="logo">
-      <img src="/logo.svg" alt="LandLibrary" class="logo-img">
+  <a class="h-skip" href="#main">Skip to content</a>
+
+  <!-- ===== NAV ===== -->
+  <header class="h-nav" id="h-nav">
+    <a href="/" class="h-logo" aria-label="LandLibrary home">
+      <span class="h-logo-mark" aria-hidden="true"></span>
+      <span class="h-logo-word" aria-hidden="true"></span>
     </a>
-    <button class="mobile-menu-btn" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="header-nav">
+    <nav class="h-nav-links" id="h-nav-links" aria-label="Primary">
+      <a href="#library">The Library</a>
+      <a href="#landbook">LandBook</a>
+      <a href="#estate">Estate Record</a>
+      <a href="#commons" data-i18n="nav.commons">Regional Commons</a>
       <a href="/about">About</a>
-      <a href="/commons" data-i18n="nav.commons">Regional Commons</a>
-      <div class="lang-toggle">
+      <div class="lang-toggle h-lang">
         <button class="lang-toggle-trigger" aria-expanded="false">
           <span class="lang-toggle-label">EN</span>
           <svg class="lang-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -45,47 +53,566 @@
           <button data-lang="pt">PT</button>
         </div>
       </div>
-    </div>
+      <a href="#invitation" class="h-nav-cta">Begin a conversation</a>
+    </nav>
+    <button class="h-menu-btn" id="h-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="h-nav-links">
+      <span></span><span></span>
+    </button>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-bg">
-      <img src="/LandLibrary__281_29.svg" alt="" class="hero-bg-img">
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1 class="hero-tagline">Your land is worth more<br>than you know.</h1>
-      <p class="hero-sub">LandLibrary turns maps, records, and local knowledge into clear, practical guidance — helping you look after your land, strengthen your neighbourhood, and support your region.</p>
-      <div class="hero-actions">
-        <a href="#landbook" class="btn-pill-primary">Know Your Land</a>
-        <a href="#neighbourhood" class="btn-pill-outline">Find a Local Library</a>
-        <a href="#commons" class="btn-pill-outline">Browse Regional Commons</a>
-      </div>
-      <div class="hero-scroll-hint">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-      </div>
-    </div>
-  </section>
+  <main id="main">
 
-  <!-- ===== ABOUT ===== -->
-  <section class="report-section" id="about">
-    <div class="container">
-      <div class="section-label">About</div>
-      <h2 class="report-title">LandLibrary exists to turn fragmented land knowledge into shared, living intelligence for rural regions.</h2>
-      <p class="section-desc" style="margin-bottom:16px;">We help landowners see what they truly own. Soil health, water access, biodiversity, and climate resilience. So they can make decisions that protect, enhance, and earn from their land.</p>
-
-      <div class="pilot-callout">
-        <svg class="pilot-callout-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.09 6.26L20 10l-4.58 3.52L17.18 20 12 16.27 6.82 20l1.76-6.48L4 10l5.91-1.74z"/></svg>
-        <span><strong>We're in Pilot Phase.</strong> Help us improve by <a href="#" id="open-feedback" class="pilot-callout-link">sharing feedback</a>.</span>
+    <!-- ===== HERO ===== -->
+    <section class="h-hero" id="top">
+      <div class="h-hero-bg" style="background-image:url('/home/pavilion.jpg')"></div>
+      <div class="h-hero-shade"></div>
+      <div class="h-hero-inner h-wrap">
+        <p class="h-eyebrow h-eyebrow--light h-reveal">A library for the land</p>
+        <h1 class="h-hero-title h-reveal">The voice<br>of the land.</h1>
+        <span class="h-rule h-reveal"></span>
+        <p class="h-hero-sub h-reveal">A beautiful place to hold the knowledge of a landscape, and carry it forward through generations.</p>
+        <div class="h-hero-actions h-reveal">
+          <a href="#landbook" class="h-btn h-btn--light">Explore LandBook</a>
+          <a href="#commons" class="h-btn h-btn--ghost">Read your region</a>
+        </div>
       </div>
+      <div class="h-hero-foot h-wrap">
+        <p class="h-caption h-caption--light">Watercolour concept / An imagined pavilion, not a named estate or an approved design.</p>
+        <button class="h-pilot" id="open-feedback" type="button">
+          <span class="h-pilot-dot" aria-hidden="true"></span>
+          Pilot phase &middot; <u>Share feedback</u>
+        </button>
+      </div>
+    </section>
 
-      <p class="section-desc" style="margin-bottom:0;"><a href="/about" class="read-more-link">Read more...</a></p>
+    <!-- ===== THE INHERITANCE ===== -->
+    <section class="h-band h-band--dark h-inherit" id="inheritance">
+      <div class="h-band-bg" style="background-image:url('/home/inheritance.jpg')"></div>
+      <div class="h-wrap">
+        <p class="h-eyebrow h-eyebrow--light h-reveal">The inheritance</p>
+        <h2 class="h-display h-reveal">Land is inherited.<br>Its knowledge should be, too.</h2>
+        <ol class="h-triad">
+          <li class="h-reveal">
+            <span class="h-num">1</span>
+            <h3>What came before</h3>
+            <p>Maps, records, stories and the practical knowledge of those who have cared for the land.</p>
+          </li>
+          <li class="h-reveal">
+            <span class="h-num">2</span>
+            <h3>What is alive now</h3>
+            <p>Soils, water, habitats and seasonal change, observed and recorded in one place.</p>
+          </li>
+          <li class="h-reveal">
+            <span class="h-num">3</span>
+            <h3>What comes next</h3>
+            <p>A growing body of knowledge that future custodians can return to, question and add to.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== THE PLACE + THE COLLECTION ===== -->
+    <section class="h-band h-paper h-place" id="library">
+      <div class="h-wrap h-split">
+        <figure class="h-place-art h-reveal">
+          <img src="/home/estate-axonometric.jpg" alt="Watercolour axonometric of an estate with a separate library pavilion among olive trees" loading="lazy">
+          <figcaption class="h-caption">Axonometric concept / Spaces and architecture are illustrative.</figcaption>
+        </figure>
+        <div class="h-place-copy">
+          <p class="h-eyebrow h-reveal">The place</p>
+          <h2 class="h-display h-display--ink h-reveal">Separate from the house.<br>Rooted in the estate.</h2>
+          <p class="h-lede h-reveal">An independent pavilion with its own purpose: close to the living landscape it exists to understand.</p>
+          <p class="h-script h-reveal">Architecture that belongs to this landscape.</p>
+          <dl class="h-rooms">
+            <div class="h-reveal"><dt>A reading room</dt><dd>Books, maps and a table for conversation.</dd></div>
+            <div class="h-reveal"><dt>A collection room</dt><dd>Specimens and records, cared for and catalogued.</dd></div>
+            <div class="h-reveal"><dt>A place to observe</dt><dd>A working threshold between field and archive.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="h-band h-paper h-collection">
+      <div class="h-wrap h-split h-split--rev">
+        <div>
+          <p class="h-eyebrow h-reveal">The collection</p>
+          <h2 class="h-display h-display--ink h-reveal">Books. Soil.<br>Leaves. Seeds.</h2>
+          <p class="h-lede h-reveal">A library of the land itself, alongside the words written about it.</p>
+          <ol class="h-steps">
+            <li class="h-reveal"><span class="h-num h-num--ink">1</span><div><h3>The written record</h3><p>Books, maps, oral histories and estate archives.</p></div></li>
+            <li class="h-reveal"><span class="h-num h-num--ink">2</span><div><h3>The ground beneath</h3><p>Soil samples linked to their place and date.</p></div></li>
+            <li class="h-reveal"><span class="h-num h-num--ink">3</span><div><h3>The living landscape</h3><p>Leaf specimens and seasonal field observations.</p></div></li>
+            <li class="h-reveal"><span class="h-num h-num--ink">4</span><div><h3>The next generation</h3><p>A seed collection, with care and renewal planned.</p></div></li>
+          </ol>
+        </div>
+        <figure class="h-collection-art h-reveal">
+          <img src="/home/collection.jpg" alt="Watercolour still life of soil jars, seeds, pressed leaves, old books and a hand-drawn map" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== THE LIVING ARCHIVE ===== -->
+    <section class="h-band h-band--dark h-archive" id="archive">
+      <div class="h-band-bg" style="background-image:url('/home/living-archive.jpg')"></div>
+      <div class="h-wrap h-archive-grid">
+        <div>
+          <p class="h-eyebrow h-eyebrow--light h-reveal">The living archive</p>
+          <h2 class="h-display h-reveal">The land<br>keeps speaking.</h2>
+          <p class="h-lede h-lede--light h-reveal">Observations flow into the library. What is learned returns to the land.</p>
+          <div class="h-cycle-list" role="tablist" aria-label="The living archive cycle">
+            <button role="tab" class="h-cycle-item is-active" data-step="0" aria-selected="true">
+              <span class="h-num">1</span><span><strong>Observe</strong><em>A watercourse after rain. The first flowering. A change in soil or bird life.</em></span>
+            </button>
+            <button role="tab" class="h-cycle-item" data-step="1" aria-selected="false">
+              <span class="h-num">2</span><span><strong>Remember</strong><em>Record the place, date and observer. Connect field notes, samples and maps.</em></span>
+            </button>
+            <button role="tab" class="h-cycle-item" data-step="2" aria-selected="false">
+              <span class="h-num">3</span><span><strong>Return</strong><em>Use the growing record to inform care, then observe what changes.</em></span>
+            </button>
+          </div>
+          <p class="h-eyebrow h-eyebrow--light h-archive-note">A continuous practice, not a finished collection</p>
+        </div>
+        <div class="h-cycle h-reveal" aria-hidden="true">
+          <svg viewBox="0 0 400 400" class="h-cycle-svg">
+            <defs>
+              <marker id="h-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 1 L9 5 L0 9" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              </marker>
+            </defs>
+            <circle cx="200" cy="200" r="150" class="h-cycle-track"/>
+            <circle cx="200" cy="200" r="150" class="h-cycle-progress" id="h-cycle-progress"/>
+            <path d="M262 64 A150 150 0 0 1 345 238" class="h-cycle-arc" marker-end="url(#h-arrow)"/>
+            <path d="M312 300 A150 150 0 0 1 88 300" class="h-cycle-arc" marker-end="url(#h-arrow)"/>
+            <path d="M55 238 A150 150 0 0 1 138 64" class="h-cycle-arc" marker-end="url(#h-arrow)"/>
+            <g class="h-cycle-node" data-node="0" transform="translate(200 50)"><circle r="34"/><text y="5">Observe</text></g>
+            <g class="h-cycle-node" data-node="1" transform="translate(330 275)"><circle r="34"/><text y="5">Remember</text></g>
+            <g class="h-cycle-node" data-node="2" transform="translate(70 275)"><circle r="34"/><text y="5">Return</text></g>
+            <text x="200" y="196" class="h-cycle-center">the</text>
+            <text x="200" y="224" class="h-cycle-center h-cycle-center--big">library</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LANDBOOK — THE DIGITAL FOUNDATION ===== -->
+    <section class="h-band h-paper h-landbook" id="landbook">
+      <div class="h-wrap">
+        <div class="h-intro">
+          <div>
+            <p class="h-eyebrow h-reveal">The digital foundation &middot; LandBook</p>
+            <h2 class="h-display h-display--ink h-reveal">Know the land.<br>Recognise its value.</h2>
+          </div>
+          <div class="h-intro-copy h-reveal">
+            <p>LandBook derives natural-capital value from the services a landscape provides: carbon regulation, water cycling, soil formation and biodiversity support.</p>
+            <p>Compare future scenarios, identify risks and direct care where it matters. Ecosystem-service value is not the same as cash income.</p>
+            <p class="h-script">Better evidence. Better long-term choices.</p>
+          </div>
+        </div>
+
+        <!-- App window: figures from the LandBook sample report (full-report-preview.html) -->
+        <div class="h-app h-reveal" id="lb-app">
+          <div class="h-app-bar">
+            <span class="h-app-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="h-app-title"><span class="h-app-mark" aria-hidden="true"></span>LandBook <span class="h-app-sep">/</span> Monte da Ribeira <span class="h-chip">Sample report</span></span>
+            <a class="h-app-meta h-app-meta--link" href="/full-report-preview">Open the full report &rarr;</a>
+          </div>
+          <div class="h-app-body">
+            <div class="h-app-side" role="tablist" aria-label="LandBook views">
+              <button class="h-tab is-active" role="tab" aria-selected="true" aria-controls="lb-overview" id="lb-tab-overview" data-panel="lb-overview">
+                <span class="h-tab-n">01</span><span><strong>Overview</strong><em>The estate, brought into focus.</em></span>
+              </button>
+              <button class="h-tab" role="tab" aria-selected="false" aria-controls="lb-value" id="lb-tab-value" data-panel="lb-value" tabindex="-1">
+                <span class="h-tab-n">02</span><span><strong>Value &amp; Benefits</strong><em>Natural capital and ecosystem services.</em></span>
+              </button>
+              <button class="h-tab" role="tab" aria-selected="false" aria-controls="lb-scenarios" id="lb-tab-scenarios" data-panel="lb-scenarios" tabindex="-1">
+                <span class="h-tab-n">03</span><span><strong>Future Scenarios</strong><em>Climate trajectory and valuation range.</em></span>
+              </button>
+              <button class="h-tab" role="tab" aria-selected="false" aria-controls="lb-region" id="lb-tab-region" data-panel="lb-region" tabindex="-1">
+                <span class="h-tab-n">04</span><span><strong>Region &amp; Ecosystem</strong><em>See the land in its wider context.</em></span>
+              </button>
+            </div>
+
+            <div class="h-app-main">
+              <!-- Overview -->
+              <div class="h-panel is-active" id="lb-overview" role="tabpanel" aria-labelledby="lb-tab-overview">
+                <div class="h-panel-head">
+                  <div><h3>Overview</h3><p>17 ha of agro-forestry, sclerophyllous scrub and broad-leaved woodland near São Teotónio, Odemira.</p></div>
+                  <span class="h-badge h-badge--obs">Natural Capital Score 72/100</span>
+                </div>
+                <div class="h-kpis">
+                  <div class="h-kpi"><span>Area</span><strong>17<small> ha</small></strong><em>From the drawn boundary</em></div>
+                  <div class="h-kpi"><span>Elevation</span><strong>85–142<small> m</small></strong><em>South-facing, 8.3% slope</em></div>
+                  <div class="h-kpi"><span>Rainfall</span><strong>652<small> mm/yr</small></strong><em>15.8°C mean, 30-yr normal</em></div>
+                  <div class="h-kpi"><span>Species</span><strong>287</strong><em>Within 15 km, 14 threatened</em></div>
+                </div>
+                <div class="h-ov-grid">
+                  <figure class="h-map-card">
+                    <div class="h-map" style="background-image:url('/home/estate-aerial.jpg')">
+                      <svg viewBox="0 0 600 340" preserveAspectRatio="xMidYMid slice" aria-label="Illustrative estate boundary over a watercolour aerial">
+                        <path d="M318 62 L452 88 L498 170 L470 262 L362 292 L286 240 L270 150 Z" class="h-parcel"/>
+                        <path d="M362 292 L340 210 L398 150 L452 88" class="h-parcel-inner"/>
+                        <circle cx="402" cy="176" r="6" class="h-pin"/>
+                        <circle cx="330" cy="120" r="6" class="h-pin h-pin--soil"/>
+                        <circle cx="440" cy="238" r="6" class="h-pin h-pin--water"/>
+                      </svg>
+                    </div>
+                    <figcaption><span><i class="h-key h-key--pin"></i>Field notes</span><span><i class="h-key h-key--soil"></i>Soil sample</span><span><i class="h-key h-key--water"></i>2 springs, 1 well</span></figcaption>
+                  </figure>
+                  <div class="h-health">
+                    <h4>Natural capital scorecard</h4>
+                    <ul id="lb-scorecard"></ul>
+                    <p class="h-note"><i class="h-key h-key--tick"></i>Regional average. Scores out of 10.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Value -->
+              <div class="h-panel" id="lb-value" role="tabpanel" aria-labelledby="lb-tab-value" hidden>
+                <div class="h-panel-head">
+                  <div><h3>Value &amp; Benefits</h3><p>Annual ecosystem services value, TEEB coefficients for Mediterranean ecosystems.</p></div>
+                  <span class="h-badge h-badge--mod">Literature estimate</span>
+                </div>
+                <div class="h-value-grid">
+                  <div class="h-hero-num">
+                    <span>Ecosystem services, per year</span>
+                    <strong>€18,462</strong>
+                    <em>Land value €25,300/ha (Eurostat PT 2022)</em>
+                    <p>Not cash income. A measure of what the landscape provides, to guide care and long-term decisions.</p>
+                  </div>
+                  <div class="h-bars" id="lb-bars" role="list"></div>
+                </div>
+                <div class="h-cover" id="lb-cover"></div>
+              </div>
+
+              <!-- Scenarios -->
+              <div class="h-panel" id="lb-scenarios" role="tabpanel" aria-labelledby="lb-tab-scenarios" hidden>
+                <div class="h-panel-head">
+                  <div><h3>Future Scenarios</h3><p>Projected annual rainfall at Monte da Ribeira, with temperature change by period.</p></div>
+                  <span class="h-badge h-badge--mod">Climate projection</span>
+                </div>
+                <div class="h-scen-grid">
+                  <div class="h-chart" id="lb-chart"></div>
+                  <div class="h-scen-cards" id="lb-valuation"></div>
+                </div>
+                <p class="h-note">Projections and valuations are estimates, not guarantees. Verify locally before acting.</p>
+              </div>
+
+              <!-- Region -->
+              <div class="h-panel" id="lb-region" role="tabpanel" aria-labelledby="lb-tab-region" hidden>
+                <div class="h-panel-head">
+                  <div><h3>Region &amp; Ecosystem</h3><p>Monte da Ribeira within the Mira River sub-basin and the Odemira bioregion.</p></div>
+                  <span class="h-badge h-badge--obs">Open data</span>
+                </div>
+                <div class="h-region-grid">
+                  <svg viewBox="0 0 360 260" class="h-context-map" role="img" aria-label="Schematic of the estate inside the Mira River sub-basin">
+                    <path d="M40 40 C110 10 230 20 300 60 C340 90 340 170 300 210 C240 250 120 250 60 210 C20 170 10 90 40 40Z" class="h-cx-catch"/>
+                    <path d="M18 120 C70 110 120 140 170 128 C220 116 260 150 330 140" class="h-cx-river"/>
+                    <path d="M90 150 C110 160 120 190 150 196" class="h-cx-river h-cx-river--trib"/>
+                    <path d="M200 60 C250 54 300 80 312 120 C300 150 260 150 230 130 C200 110 190 80 200 60Z" class="h-cx-natura"/>
+                    <path d="M176 112 L206 106 L216 130 L196 146 L172 136Z" class="h-cx-estate"/>
+                    <text x="140" y="100" class="h-cx-label">Monte da Ribeira</text>
+                    <text x="240" y="96" class="h-cx-label h-cx-label--muted">Protected area</text>
+                    <text x="40" y="112" class="h-cx-label h-cx-label--muted">Rio Mira</text>
+                  </svg>
+                  <dl class="h-facts">
+                    <div><dt>Watershed</dt><dd>Mira River sub-basin, 340 km²</dd></div>
+                    <div><dt>Protected areas within 25 km</dt><dd>2</dd></div>
+                    <div><dt>Tree cover lost in basin since 2001</dt><dd>1.16 km²</dd></div>
+                    <div><dt>Population density</dt><dd>18.3 / km², rural</dd></div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h-app-foot">
+          <p class="h-caption">Figures from the LandBook sample report for Monte da Ribeira. Some sections of that report are still marked synthetic. Estimates, not guaranteed income.</p>
+          <div class="h-app-foot-actions">
+            <a class="h-btn h-btn--line" href="https://landbook.landlibrary.co/agents">Explore LandBook</a>
+            <button class="h-btn h-btn--ink" id="open-waitlist" type="button">Join the LandBook waitlist</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THE LAND IN LAYERS ===== -->
+    <section class="h-band h-cream h-layers" id="layers">
+      <div class="h-wrap h-layers-grid">
+        <div>
+          <p class="h-eyebrow h-reveal">The land in layers</p>
+          <h2 class="h-display h-display--ink h-reveal">One estate.<br>Many ways to understand it.</h2>
+          <p class="h-lede h-reveal">From soil and water to species, climate and risk: LandBook makes the estate readable as connected layers. Trace each insight to its evidence.</p>
+          <div class="h-layer-list" role="tablist" aria-label="Land layers" id="h-layer-list"></div>
+        </div>
+        <div class="h-layer-stage h-reveal">
+          <img src="/home/land-layers.jpg" alt="Exploded watercolour diagram of landscape layers: sky, vegetation, water and soil" loading="lazy">
+          <article class="h-layer-card" id="h-layer-card" aria-live="polite"></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THE ESTATE INTERFACE ===== -->
+    <section class="h-band h-paper h-estate" id="estate">
+      <div class="h-wrap">
+        <div class="h-intro">
+          <div>
+            <p class="h-eyebrow h-reveal">The estate interface</p>
+            <h2 class="h-display h-display--ink h-reveal">One place for<br>what you know.</h2>
+          </div>
+          <div class="h-intro-copy h-reveal">
+            <p>A digital home for the knowledge scattered across folders, phones and people. Bring field evidence alongside LandBook insights, connected to place, date and source.</p>
+            <p>The aim: more informed decisions, less repeated searching and testing, and less wasted time and money over years of stewardship.</p>
+          </div>
+        </div>
+
+        <div class="h-app h-record h-reveal">
+          <div class="h-app-bar">
+            <span class="h-app-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="h-app-title"><span class="h-app-mark" aria-hidden="true"></span>Estate Record <span class="h-app-sep">/</span> Quinta do Vale</span>
+            <span class="h-app-meta">48 entries &middot; 6 contributors</span>
+          </div>
+          <div class="h-record-filters" role="group" aria-label="Filter evidence" id="h-record-filters">
+            <button class="h-filter is-on" data-kind="all" aria-pressed="true">All</button>
+            <button class="h-filter" data-kind="photo" aria-pressed="false">Photos of the land</button>
+            <button class="h-filter" data-kind="drone" aria-pressed="false">Drone footage</button>
+            <button class="h-filter" data-kind="soil" aria-pressed="false">Soil tests</button>
+            <button class="h-filter" data-kind="record" aria-pressed="false">Maps &amp; local records</button>
+          </div>
+          <div class="h-record-body">
+            <div class="h-record-map" style="background-image:url('/home/estate-aerial.jpg')">
+              <div class="h-record-pins" id="h-record-pins"></div>
+            </div>
+            <ol class="h-feed" id="h-feed"></ol>
+          </div>
+          <div class="h-record-eq">
+            <span>Evidence</span><b>+</b><span>LandBook insights</span><b>=</b><span class="h-record-eq-out">a living estate record</span>
+          </div>
+        </div>
+        <p class="h-caption h-caption--center">Proposed estate interface / Field evidence and access by agreement. Concept, not a verified upload workflow.</p>
+      </div>
+    </section>
+
+    <!-- ===== BIOREGIONAL KNOWLEDGE ===== -->
+    <section class="h-band h-cream h-commons" id="commons">
+      <div class="h-commons-art" style="background-image:url('/home/region.jpg')" aria-hidden="true"></div>
+      <div class="h-wrap">
+        <div class="h-commons-head">
+          <p class="h-eyebrow h-reveal">Bioregional knowledge &middot; Regional Commons</p>
+          <h2 class="h-display h-display--ink h-reveal">Know your land.<br>Understand your region.</h2>
+          <p class="h-lede h-reveal">Regional Commons is a living wiki: land, water, climate, ecology and culture, contributed by locals and enriched with open data. Connect estate decisions to the wider landscape and its people.</p>
+        </div>
+
+        <div class="h-regions">
+          <a href="/wiki" class="h-region-card h-reveal" id="featured-commons" aria-label="Explore the Odemira Regional Commons">
+            <div class="h-region-img"><img src="/wiki/bioregion.png" alt="" loading="lazy"><span class="h-live"><i></i>Live</span></div>
+            <div class="h-region-body">
+              <h3 id="fc-name">Odemira</h3>
+              <p id="fc-location">Southwest Alentejo, Portugal</p>
+              <div class="h-region-stats">
+                <span><b id="fc-area">1720.6</b> km&sup2;</span>
+                <span><b id="fc-pop">31,488</b> people</span>
+                <span><b>10</b> chapters</span>
+              </div>
+              <span class="h-link">Explore the region <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+          </a>
+          <div class="h-region-card h-region-card--soon h-reveal">
+            <div class="h-region-img"><img src="/wiki/water.png" alt="" loading="lazy"><span class="h-live h-live--soon">In preparation</span></div>
+            <div class="h-region-body">
+              <h3>Bacia do Lima</h3>
+              <p>Minho, Northern Portugal</p>
+              <div class="h-region-stats"><span>River basin commons</span></div>
+              <button type="button" class="h-link" id="open-library-waitlist">Hear when it opens <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <ol class="h-triad h-triad--ink">
+          <li class="h-reveal"><span class="h-num h-num--ink">01</span><h3>Read beyond the boundary</h3><p>Explore regional ecology, land, soil, water, climate, land use and risks.</p></li>
+          <li class="h-reveal"><span class="h-num h-num--ink">02</span><h3>Learn from the people here</h3><p>Culture, community and local knowledge sit alongside environmental evidence.</p></li>
+          <li class="h-reveal"><span class="h-num h-num--ink">03</span><h3>Grow the shared record</h3><p>Neighbours contribute; estate libraries could become local nodes and help other libraries grow.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== THE INTERACTIVE REGIONAL DASHBOARD ===== -->
+    <!-- Signals and places come from src/lib/wiki-data.js, the same data the Odemira commons pages use. -->
+    <section class="h-band h-paper h-dash" id="dashboard">
+      <div class="h-wrap">
+        <div class="h-intro">
+          <div>
+            <p class="h-eyebrow h-reveal">The interactive regional dashboard</p>
+            <h2 class="h-display h-display--ink h-reveal">Read the region.<br>Layer by layer.</h2>
+          </div>
+          <div class="h-intro-copy h-reveal">
+            <p>An interactive map brings the commons' layers into view: satellite imagery, water, protected areas, land cover, fire danger and the places people know.</p>
+            <p>Look across time as well as space: rainfall through the year, reservoir levels, how land use is changing and the risks the region faces.</p>
+          </div>
+        </div>
+
+        <div class="h-app h-dash-app h-reveal">
+          <div class="h-app-bar">
+            <span class="h-app-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="h-app-title"><span class="h-app-mark" aria-hidden="true"></span>Regional Commons <span class="h-app-sep">/</span> Odemira <span class="h-app-sep">/</span> Dashboard</span>
+            <span class="h-app-meta" id="h-dash-mode">Schematic map</span>
+          </div>
+          <div class="h-dash-body">
+            <div class="h-dash-mapwrap" id="h-dash-mapwrap">
+              <div class="h-dash-layers" role="group" aria-label="Map layers" id="h-dash-layers">
+                <p>Map layers</p>
+                <button class="h-layer-toggle is-on" data-layer="places" aria-pressed="true"><i></i>Places</button>
+                <button class="h-layer-toggle is-on" data-layer="water" aria-pressed="true"><i></i>Water</button>
+                <button class="h-layer-toggle" data-layer="protected" aria-pressed="false"><i></i>Protected areas</button>
+                <button class="h-layer-toggle" data-layer="landcover" aria-pressed="false"><i></i>Land cover</button>
+                <button class="h-layer-toggle" data-layer="fire" aria-pressed="false"><i></i>Fire danger</button>
+                <button class="h-layer-toggle" data-layer="satellite" aria-pressed="false"><i></i>Satellite</button>
+              </div>
+              <svg class="h-dash-map" id="h-dash-map" viewBox="-60 0 700 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schematic map of Odemira with selectable layers">
+                <defs>
+                  <pattern id="h-pat-fire" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <line x1="0" y1="0" x2="0" y2="8" stroke="#C0582F" stroke-width="2.4" opacity=".45"/>
+                  </pattern>
+                  <clipPath id="h-muni"><path d="M118 30 C160 24 230 40 300 30 C380 22 470 40 560 70 C600 130 610 220 590 300 C570 370 520 430 440 450 C360 465 280 440 220 430 C170 420 135 440 112 450 C118 400 108 350 116 300 C124 250 110 200 118 160 C124 110 112 70 118 30Z"/></clipPath>
+                </defs>
+                <rect x="-60" width="700" height="470" class="h-dm-sea"/>
+                <g class="h-dm-layer" data-layer="satellite">
+                  <image href="/home/estate-aerial.jpg" x="-60" y="0" width="700" height="470" preserveAspectRatio="xMidYMid slice" clip-path="url(#h-muni)" opacity=".75"/>
+                </g>
+                <path d="M118 30 C160 24 230 40 300 30 C380 22 470 40 560 70 C600 130 610 220 590 300 C570 370 520 430 440 450 C360 465 280 440 220 430 C170 420 135 440 112 450 C118 400 108 350 116 300 C124 250 110 200 118 160 C124 110 112 70 118 30Z" class="h-dm-land"/>
+                <g class="h-dm-contours" clip-path="url(#h-muni)">
+                  <path d="M260 90 C360 60 480 90 540 170 C590 240 560 340 470 380"/>
+                  <path d="M300 130 C380 110 470 130 510 190 C540 240 520 300 460 330"/>
+                  <path d="M340 170 C400 160 450 175 470 215 C485 250 470 280 440 290"/>
+                </g>
+                <g class="h-dm-layer" data-layer="landcover" clip-path="url(#h-muni)">
+                  <path d="M280 40 C380 30 480 60 560 90 C590 160 590 240 560 300 C480 320 380 300 300 260 C270 200 260 110 280 40Z" fill="#2d5a3d" opacity=".32"/>
+                  <path d="M130 230 C180 220 230 240 250 280 C250 330 220 360 170 360 C140 350 125 300 130 230Z" fill="#d4a574" opacity=".55"/>
+                  <path d="M150 270 C175 262 200 270 210 290 C205 310 180 318 160 312 C148 300 146 284 150 270Z" fill="#CC6633" opacity=".55"/>
+                  <path d="M300 300 C380 310 470 330 540 360 C500 420 420 450 330 440 C280 410 280 340 300 300Z" fill="#8b9a46" opacity=".4"/>
+                  <text x="400" y="180" class="h-dm-tag">Montado</text><text x="150" y="342" class="h-dm-tag">Irrigated plain</text><text x="200" y="300" class="h-dm-tag">Greenhouses</text>
+                </g>
+                <g class="h-dm-layer" data-layer="protected">
+                  <path d="M112 30 C126 28 150 30 168 34 C160 120 172 220 160 300 C152 360 170 410 150 446 L112 450 C118 400 108 350 116 300 C124 250 110 200 118 160 C124 110 112 70 112 30Z" fill="#4F7A45" opacity=".3" stroke="#4F7A45" stroke-width="1.2"/>
+                  <text x="64" y="380" class="h-dm-tag" transform="rotate(-90 64 380)">Natural park, 44% of Odemira</text>
+                </g>
+                <g class="h-dm-layer" data-layer="fire" clip-path="url(#h-muni)">
+                  <path d="M330 120 C420 100 520 130 580 190 C600 260 570 340 500 380 C420 390 340 350 320 280 C300 220 300 160 330 120Z" fill="url(#h-pat-fire)"/>
+                  <text x="440" y="250" class="h-dm-tag">Fire risk: High (72/100)</text>
+                </g>
+                <g class="h-dm-layer is-on" data-layer="water">
+                  <path d="M408 300 C380 290 340 262 300 246 C276 236 262 226 248 215 C222 194 196 168 172 146 C156 132 146 120 118 108" class="h-dm-river"/>
+                  <path d="M248 215 C252 250 236 290 250 340" class="h-dm-river h-dm-river--trib"/>
+                  <path d="M340 262 C360 220 400 190 440 170" class="h-dm-river h-dm-river--trib"/>
+                  <ellipse cx="428" cy="306" rx="30" ry="12" class="h-dm-lake"/>
+                  <text x="190" y="150" class="h-dm-tag">Rio Mira</text>
+                </g>
+                <g class="h-dm-layer is-on" data-layer="places" id="h-places"></g>
+                <text x="-40" y="440" class="h-dm-tag h-dm-tag--sea">Atlantic Ocean</text>
+              </svg>
+              <div class="h-dm-tip" id="h-dm-tip" role="status"></div>
+            </div>
+
+            <aside class="h-signals">
+              <h3>Read the signals. <em>Ask better questions.</em></h3>
+              <div id="h-signals"></div>
+              <a href="/wiki" class="h-btn h-btn--ink h-btn--block">Open the Odemira commons</a>
+            </aside>
+          </div>
+        </div>
+        <p class="h-caption h-caption--center">Figures from the Odemira Regional Commons. The map is schematic here; on a deployment with a Mapbox key it loads the commons' live layers.</p>
+      </div>
+    </section>
+
+    <!-- ===== REQUEST A REGION (rendered by region-request.js) ===== -->
+    <section class="add-region-section h-request" id="region-request-container"></section>
+
+    <!-- ===== THE PRACTICE ===== -->
+    <section class="h-band h-band--dark h-practice" id="practice">
+      <div class="h-band-bg" style="background-image:url('/home/reading-room.jpg')"></div>
+      <div class="h-wrap h-split h-split--top">
+        <div>
+          <p class="h-eyebrow h-eyebrow--light h-reveal">The practice</p>
+          <h2 class="h-display h-reveal">A collection needs a custodian.<br>A living library needs a rhythm.</h2>
+        </div>
+        <dl class="h-principles">
+          <div class="h-reveal"><dt>Care for the collection</dt><dd>A named custodian. Clear cataloguing. Specialist care for specimens and seeds.</dd></div>
+          <div class="h-reveal"><dt>Make knowledge traceable</dt><dd>Keep provenance, dates and methods. Distinguish observation from interpretation.</dd></div>
+          <div class="h-reveal"><dt>Bring people into the work</dt><dd>Estate teams, local knowledge holders and invited researchers, with agreed access and consent.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ===== THE PATRON ===== -->
+    <section class="h-band h-band--dark h-patron" id="patron">
+      <div class="h-band-bg" style="background-image:url('/home/patron.jpg')"></div>
+      <div class="h-wrap h-center">
+        <p class="h-eyebrow h-eyebrow--light h-reveal">The patron</p>
+        <h2 class="h-display h-display--xl h-reveal">Patronage for what<br>should outlast us.</h2>
+        <p class="h-lede h-lede--light h-reveal">For those who already understand the value of art, culture and learning: an invitation to extend that care to the land.</p>
+        <ul class="h-pillars">
+          <li class="h-reveal"><h3>A cultural legacy</h3><p>A dedicated home for the estate's knowledge.</p></li>
+          <li class="h-reveal"><h3>A practical inheritance</h3><p>A record that grows with each season and each custodian.</p></li>
+          <li class="h-reveal"><h3>An act of care</h3><p>Long-term support for the place, the collection and the people who tend it.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== THE FIRST COMMISSION ===== -->
+    <section class="h-band h-paper h-commission" id="commission">
+      <div class="h-commission-art" style="background-image:url('/home/first-commission.jpg')" aria-hidden="true"></div>
+      <div class="h-wrap">
+        <div class="h-intro">
+          <div>
+            <p class="h-eyebrow h-reveal">The first commission</p>
+            <h2 class="h-display h-display--ink h-reveal">Begin with one estate.</h2>
+          </div>
+          <p class="h-lede h-reveal">A founding patron helps shape the first library around a real landscape and its people.</p>
+        </div>
+        <ol class="h-path">
+          <li class="h-reveal"><span class="h-path-dot"></span><h3>Walk &amp; listen</h3><p>Meet the custodians. Read the land, its records and the hopes for its future.</p></li>
+          <li class="h-reveal"><span class="h-path-dot"></span><h3>Shape the brief</h3><p>Choose a site and a purpose. Define the collection, access and design approach.</p></li>
+          <li class="h-reveal"><span class="h-path-dot"></span><h3>Agree the care</h3><p>Set the budget, permissions, specialist roles and long-term operating plan.</p></li>
+          <li class="h-reveal"><span class="h-path-dot h-path-dot--on"></span><h3>Create &amp; continue</h3><p>Build or adapt the space. Gather the first collection. Begin the observation cycle.</p></li>
+        </ol>
+        <p class="h-caption">Proposed commissioning path / No estate, budget, building design or delivery date is committed.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== THE INVITATION + FOOTER ===== -->
+  <footer class="h-footer" id="invitation">
+    <div class="h-band-bg" style="background-image:url('/home/invitation.jpg')"></div>
+    <div class="h-wrap h-invite">
+      <p class="h-eyebrow h-eyebrow--light h-reveal">The invitation</p>
+      <h2 class="h-display h-display--xl h-reveal">Give the land<br>a place to be heard.</h2>
+      <p class="h-lede h-lede--light h-reveal">We invite a founding patron to help create the first estate LandLibrary.</p>
+      <span class="h-rule h-reveal"></span>
+      <p class="h-script h-script--light h-reveal">The first step is a conversation about your land.</p>
+      <form class="h-invite-form h-reveal" id="footer-newsletter-form">
+        <label for="footer-newsletter-email" class="h-sr">Email address</label>
+        <input type="email" id="footer-newsletter-email" placeholder="Your email address" required autocomplete="email" />
+        <button type="submit" id="footer-newsletter-submit">
+          <span>Begin the conversation</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </form>
+      <p class="h-form-note">Or speak with the person who shared this with you. No spam; unsubscribe anytime.</p>
     </div>
-  </section>
+    <div class="h-wrap h-footer-bottom">
+      <a href="/" class="h-logo h-logo--light" aria-label="LandLibrary home">
+        <span class="h-logo-mark" aria-hidden="true"></span>
+        <span class="h-logo-word" aria-hidden="true"></span>
+      </a>
+      <nav class="h-footer-links" aria-label="Footer">
+        <a href="#library">The Library</a>
+        <a href="#landbook">LandBook</a>
+        <a href="/commons">Regional Commons</a>
+        <a href="/about">About</a>
+      </nav>
+      <p>&copy; 2026 LandLibrary &middot; Watercolour concepts: imagined places.</p>
+    </div>
+  </footer>
 
   <!-- ===== FEEDBACK MODAL ===== -->
   <div class="waitlist-overlay" id="feedback-overlay" style="display:none;">
@@ -121,66 +648,7 @@
     </div>
   </div>
 
-  <!-- ===== YOUR LAND — LANDBOOK ===== -->
-  <section class="report-section" id="landbook">
-    <div class="container">
-      <div class="section-label">Your Land</div>
-      <h2 class="report-title">LandBook</h2>
-      <p class="section-desc">LandBook uncovers your land's hidden value — with detailed maps, historical weather patterns, risk timelines, biodiversity data, and a natural capital estimate that can add tens of thousands to its total value.</p>
-
-      <div class="report-layout">
-        <div class="report-preview">
-          <div class="report-preview-card">
-            <div class="report-topo-header">TOPOGRAPHIC SURVEY</div>
-            <div class="report-topo-body">
-              <div class="topo-lines">
-                <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 250 Q50 230 100 240 T200 220 T300 200 T400 210" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.4" />
-                  <path d="M0 220 Q80 200 140 210 T240 190 T340 175 T400 185" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.4" />
-                  <path d="M0 190 Q60 165 130 180 T230 155 T320 145 T400 160" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.35" />
-                  <path d="M0 160 Q70 135 150 150 T260 120 T350 115 T400 130" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.35" />
-                  <path d="M0 130 Q90 100 170 115 T280 85 T370 80 T400 100" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.3" />
-                  <path d="M0 100 Q80 70 160 85 T270 55 T360 50 T400 70" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.3" />
-                  <path d="M0 70 Q100 40 180 55 T290 30 T380 28 T400 45" stroke="#8B7D5E" stroke-width="1" fill="none" opacity="0.25" />
-                  <rect x="170" y="140" width="60" height="45" fill="#8B2020" opacity="0.7" rx="2" />
-                </svg>
-              </div>
-              <div class="topo-meta">
-                <span>PARCEL ID: 4579-A</span>
-                <span>1:5000 &nbsp; 50 METERS</span>
-              </div>
-            </div>
-            <div class="report-preview-footer">
-              <div class="report-sample-label">SAMPLE REPORT</div>
-              <div class="report-parcel-name">Parcel #4579-A</div>
-              <div class="report-parcel-location">Odemira, Portugal</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="report-chapters">
-          <div class="report-chapter"><span class="chapter-num">01</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg><span class="chapter-title">Executive Summary</span></div>
-          <div class="report-chapter"><span class="chapter-num">02</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="chapter-title">Map</span></div>
-          <div class="report-chapter"><span class="chapter-num">03</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg><span class="chapter-title">Weather &amp; Climate</span></div>
-          <div class="report-chapter"><span class="chapter-num">04</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5a7 7 0 0 1 11 0"/><path d="M3 11a11 11 0 0 1 18 0"/><path d="M12 18c-2.5-3-4-5.5-4-8a4 4 0 1 1 8 0c0 2.5-1.5 5-4 8z"/><circle cx="12" cy="10" r="1"/></svg><span class="chapter-title">Biodiversity</span></div>
-          <div class="report-chapter"><span class="chapter-num">05</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="chapter-title">Risk Assessment</span></div>
-          <div class="report-chapter"><span class="chapter-num">06</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 4 4 4-8 6 6"/><path d="M3 21h18"/></svg><span class="chapter-title">Elevation &amp; Terrain</span></div>
-          <div class="report-chapter"><span class="chapter-num">07</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="10"/></svg><span class="chapter-title">Soil</span></div>
-          <div class="report-chapter"><span class="chapter-num">08</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg><span class="chapter-title">Protected Areas</span></div>
-          <div class="report-chapter"><span class="chapter-num">09</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span class="chapter-title">Your Knowledge</span></div>
-          <div class="report-chapter"><span class="chapter-num">10</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><span class="chapter-title">Source Citations</span></div>
-        </div>
-      </div>
-
-      <p class="section-desc" style="margin-top:48px;">When you understand what you've really got, you can care for it better, make smarter improvements, and show its true value to family, buyers, or lenders.</p>
-
-      <div class="report-cta-wrap">
-        <button class="report-cta-btn" id="open-waitlist">Join the Waitlist</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== WAITLIST MODAL ===== -->
+  <!-- ===== LANDBOOK WAITLIST MODAL ===== -->
   <div class="waitlist-overlay" id="waitlist-overlay" style="display:none;">
     <div class="waitlist-modal">
       <button class="waitlist-close" id="waitlist-close">&times;</button>
@@ -214,24 +682,7 @@
     </div>
   </div>
 
-  <!-- ===== NEIGHBOURHOOD — LIVING LIBRARIES ===== -->
-  <section class="neighbourhood-section" id="neighbourhood">
-    <div class="container">
-      <div class="section-label">Neighbourhood</div>
-      <h2 class="report-title">Living Libraries</h2>
-      <p class="section-desc">A network of local living library spaces reconnecting people to place and each other. Exchange local knowledge, skills and tools about what works — what grows where, how water flows, and which practices last. Cooperatively owned and operated.</p>
-
-      <div class="neighbourhood-image-wrap">
-        <img src="/living-library.jpg" alt="A living library space in the landscape" class="neighbourhood-image" />
-      </div>
-
-      <div class="report-cta-wrap">
-        <button class="report-cta-btn" id="open-library-waitlist">Join a Library</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== LIBRARY WAITLIST MODAL ===== -->
+  <!-- ===== LIBRARY / REGION WAITLIST MODAL ===== -->
   <div class="waitlist-overlay" id="library-waitlist-overlay" style="display:none;">
     <div class="waitlist-modal">
       <button class="waitlist-close" id="library-waitlist-close">&times;</button>
@@ -241,17 +692,17 @@
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <h3>Thank you!</h3>
-        <p>We'll let you know when a library launches in your area.</p>
+        <p>We'll let you know when a library or commons opens in your area.</p>
       </div>
 
       <div class="waitlist-form-state" id="library-waitlist-form-state">
-        <h3>Join a Library</h3>
-        <p class="waitlist-sub">Enter your location and email. We'll let you know when a library launches in your area.</p>
+        <h3>Hear when it opens</h3>
+        <p class="waitlist-sub">Enter your location and email. We'll let you know when a library or regional commons opens near you.</p>
 
         <div class="waitlist-fields">
           <div class="waitlist-field">
             <label for="library-waitlist-address">Where is your land?</label>
-            <input type="text" id="library-waitlist-address" placeholder="e.g. Odemira, Portugal" />
+            <input type="text" id="library-waitlist-address" placeholder="e.g. Ponte de Lima, Portugal" />
           </div>
           <div class="waitlist-field">
             <label for="library-waitlist-email">What is your email?</label>
@@ -265,81 +716,6 @@
     </div>
   </div>
 
-  <!-- ===== REGIONAL — THE COMMONS ===== -->
-  <section class="commons-intro-section" id="commons">
-    <div class="container">
-      <div class="section-label">Regional Commons</div>
-      <h2 class="commons-intro-title">Collective intelligence for your region</h2>
-      <p class="commons-intro-desc">Explore local knowledge. Open to all. Community-contributed, continuously improved. Contribute what you know. Help build the most complete picture of your region, so better decisions get made by the people who live here.</p>
-    </div>
-  </section>
-
-  <!-- ===== FEATURED COMMONS ===== -->
-  <section class="featured-commons-section" id="featured-commons">
-    <div class="container">
-      <p class="featured-commons-label">Featured Region</p>
-      <a href="/wiki" class="featured-commons-card" aria-label="Explore Odemira region">
-        <div class="featured-commons-img-wrap">
-          <img src="/wiki/bioregion.png" alt="" class="featured-commons-img" />
-          <div class="featured-commons-badge" id="fc-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>Active</span>
-          </div>
-          <div class="featured-commons-overlay">
-            <h3 class="featured-commons-name" id="fc-name">Odemira</h3>
-            <p class="featured-commons-location" id="fc-location">Southwest Alentejo, Portugal</p>
-          </div>
-        </div>
-        <div class="featured-commons-stats">
-          <div class="featured-commons-stat">
-            <span class="featured-commons-stat-value" id="fc-area">1720.6</span>
-            <span class="featured-commons-stat-unit">km&sup2;</span>
-          </div>
-          <div class="featured-commons-stat">
-            <span class="featured-commons-stat-value" id="fc-pop">31,488</span>
-            <span class="featured-commons-stat-unit">population</span>
-          </div>
-          <span class="featured-commons-arrow" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ===== REQUEST A REGION (rendered by region-request.js) ===== -->
-  <section class="add-region-section" id="region-request-container"></section>
-
-  <footer class="footer">
-    <div class="footer-cta">
-      <h2 class="footer-cta-title">Your land is worth more than you know.</h2>
-      <p class="footer-cta-sub">Join our newsletter to be the first to access our tools and updates.</p>
-      <form class="footer-cta-form" id="footer-newsletter-form">
-        <input type="email" class="footer-cta-input" id="footer-newsletter-email" placeholder="Email address" required />
-        <button type="submit" class="footer-cta-btn" id="footer-newsletter-submit">
-          <span>Request access</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
-      </form>
-      <p class="footer-cta-note">No spam. Unsubscribe anytime.</p>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-brand">
-        <a href="/" class="logo">
-          <img src="/logo.svg" alt="LandLibrary" class="logo-img" style="filter:invert(1);">
-        </a>
-      </div>
-      <div class="footer-bottom-links">
-        <a href="/about">About</a>
-        <a href="/commons">Regional Commons</a>
-      </div>
-      <div class="footer-bottom-copy">2026 LandLibrary</div>
-    </div>
-  </footer>
-
-  <script>
-    function showComingSoon() { var o = document.createElement('div'); o.className = 'coming-soon-overlay'; o.innerHTML = '<div class="coming-soon-card"><h3>Coming Soon</h3><p>LandBook ordering is under development. Leave your email and we\'ll notify you when it launches.</p><button onclick="this.closest(\'.coming-soon-overlay\').remove()">Got it</button></div>'; o.addEventListener('click', function (e) { if (e.target === o) o.remove() }); document.body.appendChild(o) }
-  </script>
   <script type="module" src="/src/pages/home.js"></script>
 </body>
 
