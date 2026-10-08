@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LandLibrary"><title>LandLibrary</title><circle cx="32" cy="32" r="32" fill="#1E2B23"/><g fill="none" stroke="#F6F1E4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+
+<circle cx="17" cy="18.5" r="2.3"/>
+<path d="M12.5 38 C15 26 24 18.5 35 19.5 C44.5 20.5 50 29 51.5 38"/>
+<path d="M20 38 C22 30.5 28 25.5 35 26.5 C41 27.5 44 32 45 38"/>
+<path d="M27.5 38 C29 34 32 32.5 35 33 C38 33.5 39.5 35.5 40 38"/>
+<path d="M11.5 42 C19 39.5 26 40 32 44 C38 40 45 39.5 52.5 42"/>
+<path d="M11.5 42 V46 C19 43.5 26 44 32 48 C38 44 45 43.5 52.5 46 V42"/>
+<path d="M32 44 V48"/>
+</g></svg>

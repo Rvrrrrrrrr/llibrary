@@ -1,11 +1,14 @@
 import '../styles/main.css';
+import '../styles/home.css';
 import { initI18n } from '../lib/i18n.js';
 import { ODEMIRA } from '../lib/wiki-data.js';
-import { createMap, mapboxgl, addMarker } from '../lib/mapbox.js';
 import { initRegionRequest } from '../lib/region-request.js';
+import { initHomeInterfaces } from './home-interfaces.js';
 
+document.documentElement.classList.add('h-js');
 initI18n();
 initRegionRequest(document.getElementById('region-request-container'));
+initHomeInterfaces();
 
 // Populate featured commons card from ODEMIRA data
 const fcName = document.getElementById('fc-name');
@@ -14,50 +17,64 @@ const fcArea = document.getElementById('fc-area');
 const fcPop = document.getElementById('fc-pop');
 if (fcName) fcName.textContent = ODEMIRA.name;
 if (fcLocation) fcLocation.textContent = ODEMIRA.subtitle;
-if (fcArea) fcArea.textContent = ODEMIRA.area;
+if (fcArea) fcArea.textContent = ODEMIRA.area.toLocaleString();
 if (fcPop) fcPop.textContent = ODEMIRA.population.toLocaleString();
 
-// Scroll-aware header: transparent on hero, solid once scrolled past
-const header = document.querySelector('.header');
-if (header) {
+// Scroll-aware nav: transparent over the hero, paper once scrolled past it
+const nav = document.getElementById('h-nav');
+const hero = document.querySelector('.h-hero');
+if (nav) {
     const onScroll = () => {
-        if (window.scrollY > 80) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        const limit = hero ? hero.offsetHeight - 80 : 80;
+        nav.classList.toggle('is-solid', window.scrollY > limit);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // Run once on load
+    onScroll();
 }
 
-// Smooth scroll for anchor links — center #featured-commons, start for others
+// Smooth scroll for in-page anchors
 document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
-        const target = document.querySelector(link.getAttribute('href'));
+        const href = link.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
         if (target) {
             e.preventDefault();
-            const isFeatured = link.getAttribute('href') === '#featured-commons';
-            target.scrollIntoView({ behavior: 'smooth', block: isFeatured ? 'center' : 'start' });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
 
-// Mobile hamburger menu
-const menuBtn = document.querySelector('.mobile-menu-btn');
-const headerNav = document.querySelector('.header-nav');
-if (menuBtn && headerNav) {
-    menuBtn.addEventListener('click', () => {
-        menuBtn.classList.toggle('open');
-        headerNav.classList.toggle('open');
-    });
-    // Close menu when a nav link is clicked
-    headerNav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            menuBtn.classList.remove('open');
-            headerNav.classList.remove('open');
+// Mobile menu
+const menuBtn = document.getElementById('h-menu-btn');
+if (menuBtn && nav) {
+    const setOpen = (open) => {
+        nav.classList.toggle('is-open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.style.overflow = open ? 'hidden' : '';
+    };
+    menuBtn.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+    nav.querySelectorAll('.h-nav-links a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+}
+
+// Reveal-on-scroll
+const revealEls = document.querySelectorAll('.h-reveal');
+if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const siblings = [...el.parentElement.children].filter(c => c.classList.contains('h-reveal'));
+            el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 5) * 90}ms`;
+            el.classList.add('is-in');
+            io.unobserve(el);
         });
-    });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    revealEls.forEach(el => io.observe(el));
+} else {
+    revealEls.forEach(el => el.classList.add('is-in'));
 }
 
 // ==========================================================================
